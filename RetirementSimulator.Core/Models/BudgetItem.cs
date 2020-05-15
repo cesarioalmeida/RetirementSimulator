@@ -4,7 +4,7 @@
 
     using RetirementSimulator.Core.DTOs;
 
-    public class BudgetItem
+    public class BudgetItem : SimulationItem
     {
         private readonly double _inflationRate;
 
@@ -18,42 +18,32 @@
             this.Id = dto.Id;
             this.IsExpense = dto.IsExpense;
             this.Name = dto.Name;
-            this.StartDate = dto.StartDate;
-            this.EndDate = dto.EndDate;
+            this.StartYear = dto.StartYear;
+            this.EndYear = dto.EndYear;
             this.InitialValue = dto.InitialValue;
             this.PercentageChangePerYear = dto.PercentageChangePerYear;
             this._inflationRate = inflationRate;
             this.IsAffectedByInflationRate = dto.IsAffectedByInflationRate;
         }
 
-        public int Id { get; set; }
-
         public bool IsExpense { get; set; }
-
-        public string Name { get; set; }
-
-        public DateTime StartDate { get; set; }
-
-        public DateTime EndDate { get; set; }
-
-        public double InitialValue { get; set; }
 
         public double PercentageChangePerYear { get; set; }
 
         public bool IsAffectedByInflationRate { get; set; }
 
-        public double GetValue(DateTime date)
+        public override double GetAmount(int year)
         {
-            if (date.Date > this.EndDate.Date || date.Date < this.StartDate.Date)
+            if (year > this.EndYear || year < this.StartYear)
             {
                 return 0d;
             }
 
-            var numberOfYears = date.Date - this.StartDate.Date;
+            var numberOfYears = year - this.StartYear;
 
             return this.InitialValue
-                   * Math.Pow(1d + this.PercentageChangePerYear, numberOfYears.TotalDays / 365d)
-                   * (this.IsAffectedByInflationRate ? Math.Pow(1d + this._inflationRate, numberOfYears.TotalDays / 365d) : 1d);
+                   * Math.Pow(1d + this.PercentageChangePerYear, numberOfYears)
+                   * (this.IsAffectedByInflationRate ? Math.Pow(1d + this._inflationRate, numberOfYears) : 1d);
         }
 
         public BudgetItemDTO GetDTO()
@@ -63,8 +53,8 @@
                 Id = this.Id,
                 IsExpense = this.IsExpense,
                 Name = this.Name,
-                StartDate = this.StartDate,
-                EndDate = this.EndDate,
+                StartYear = this.StartYear,
+                EndYear = this.EndYear,
                 InitialValue = this.InitialValue,
                 PercentageChangePerYear = this.PercentageChangePerYear,
                 IsAffectedByInflationRate = this.IsAffectedByInflationRate

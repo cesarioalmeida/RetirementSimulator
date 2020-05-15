@@ -10,9 +10,9 @@
 
         public string Name { get; set; }
 
-        public DateTime StartDate { get; set; }
+        public int StartYear { get; set; }
 
-        public DateTime EndDate { get; set; }
+        public int EndYear { get; set; }
 
         public double InitialValue { get; set; }
 

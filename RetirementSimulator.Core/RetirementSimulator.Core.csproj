@@ -53,6 +53,8 @@
     <Compile Include="Helpers\ApplicationHelper.cs" />
     <Compile Include="Models\BudgetItem.cs" />
     <Compile Include="Models\Settings.cs" />
+    <Compile Include="Models\Simulation.cs" />
+    <Compile Include="Models\SimulationItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\PersistenceService.cs" />
   </ItemGroup>
