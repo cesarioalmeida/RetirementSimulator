@@ -10,10 +10,13 @@
     using Prism.Ioc;
     using Prism.Mvvm;
 
+    using RetirementSimulator.Core.Services;
+
     public partial class App
     {
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterSingleton<PersistenceService>();
         }
 
         protected override void ConfigureViewModelLocator()
