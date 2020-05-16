@@ -13,6 +13,7 @@
     public class PersistenceService
     {
         private const string BudgetItemsColletion = "BudgetItems";
+        private const string AssetItemsColletion = "AssetItems";
         private const string SettingsColletion = "Settings";
 
         private static readonly string DbLocation = Path.Combine(ApplicationHelper.GetAppDataFolder(), "DB.db");
@@ -72,6 +73,32 @@
         {
             var budgetItemsTable = this._db.GetCollection<BudgetItemDTO>(BudgetItemsColletion);
             budgetItemsTable.Delete(item.Id);
+        }
+
+        public IEnumerable<AssetItem> GetAllAssetItems()
+        {
+            if (this._db.CollectionExists(AssetItemsColletion))
+            {
+                var dtos = this._db.GetCollection<AssetItemDTO>(AssetItemsColletion).FindAll();
+
+                return dtos?.Select(x => new AssetItem(x));
+            }
+
+            return Enumerable.Empty<AssetItem>();
+        }
+
+        public void SaveAssetItem(AssetItem item)
+        {
+            var dto = item.GetDTO();
+            var table = this._db.GetCollection<AssetItemDTO>(AssetItemsColletion);
+            table.Upsert(dto);
+            item.Id = dto.Id;
+        }
+
+        public void DeleteAssetItem(AssetItem item)
+        {
+            var table = this._db.GetCollection<AssetItemDTO>(AssetItemsColletion);
+            table.Delete(item.Id);
         }
 
         public Settings GetSettings()

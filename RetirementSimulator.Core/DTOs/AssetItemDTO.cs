@@ -1,10 +1,8 @@
 ﻿namespace RetirementSimulator.Core.DTOs
 {
-    public class BudgetItemDTO
+    public class AssetItemDTO
     {
         public int Id { get; set; }
-
-        public bool IsExpense { get; set; }
 
         public string Name { get; set; }
 
@@ -16,6 +14,6 @@
 
         public double PercentageChangePerYear { get; set; }
 
-        public bool IsAffectedByInflationRate { get; set; }
+        public double IncomePercentagePerYear { get; set; }
     }
 }

@@ -2,8 +2,11 @@
 {
     using System;
 
+    using DevExpress.Mvvm.DataAnnotations;
+
     using RetirementSimulator.Core.DTOs;
 
+    [POCOViewModel]
     public class BudgetItem : SimulationItem
     {
         private readonly double _inflationRate;
@@ -11,6 +14,7 @@
         public BudgetItem(double inflationRate)
         {
             this._inflationRate = inflationRate;
+            this.EndYear = 2300;
         }
 
         public BudgetItem(double inflationRate, BudgetItemDTO dto)
@@ -26,11 +30,23 @@
             this.IsAffectedByInflationRate = dto.IsAffectedByInflationRate;
         }
 
-        public bool IsExpense { get; set; }
+        public bool IsExpense
+        {
+            get => this.GetValue<bool>();
+            set => this.SetValue(value);
+        }
 
-        public double PercentageChangePerYear { get; set; }
+        public double PercentageChangePerYear
+        {
+            get => this.GetValue<double>();
+            set => this.SetValue(value);
+        }
 
-        public bool IsAffectedByInflationRate { get; set; }
+        public bool IsAffectedByInflationRate
+        {
+            get => this.GetValue<bool>();
+            set => this.SetValue(value);
+        }
 
         public override double GetAmount(int year)
         {

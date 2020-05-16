@@ -154,7 +154,7 @@
         }
 
         [Test]
-        public void GetValue_OneCashOnExpense_ConstExpense()
+        public void GetValue_OneCashOneExpense_ConstExpense()
         {
             this._simulation.Items.Add(this._cashItemFactory(2020, 100d));
             this._simulation.Items.Add(this._expenseItemFactory(2020, 10d, 0d, false));
@@ -163,6 +163,18 @@
 
             this.AssertTotalValue(90, 80, 60);
             this.AssertCash(90, 80, 60);
+        }
+
+        [Test]
+        public void GetValue_OneCashOneExpense_ExpenseLargerThanCash()
+        {
+            this._simulation.Items.Add(this._cashItemFactory(2020, 100d));
+            this._simulation.Items.Add(this._expenseItemFactory(2020, 40d, 0d, false));
+
+            this._simulation.Run();
+
+            this.AssertTotalValue(60, 20, 0);
+            this.AssertCash(60, 20, 0);
         }
 
         private void AssertTotalValue(double valueYear0, double valueYear1, double valueYear3)

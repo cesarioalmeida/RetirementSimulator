@@ -5,9 +5,9 @@
 
     public class Simulation
     {
-        private Dictionary<int, double> _value = new Dictionary<int, double>();
+        private Dictionary<int, double> _valueDictionary = new Dictionary<int, double>();
 
-        private Dictionary<int, double> _cash = new Dictionary<int, double>();
+        private Dictionary<int, double> _cashDictionary = new Dictionary<int, double>();
 
         public int Id { get; set; }
 
@@ -19,8 +19,8 @@
 
         public void Run()
         {
-            this._value = new Dictionary<int, double>();
-            this._cash = new Dictionary<int, double>();
+            this._valueDictionary = new Dictionary<int, double>();
+            this._cashDictionary = new Dictionary<int, double>();
 
             var income = this.Items.OfType<BudgetItem>().Where(x => !x.IsExpense).ToArray();
             var expenses = this.Items.OfType<BudgetItem>().Where(x => x.IsExpense).ToArray();
@@ -28,9 +28,9 @@
             var cash = 0d;
             for (var year = this.StartYear; year <= this.EndYear; year++)
             {
-                if (!this._value.ContainsKey(year))
+                if (!this._valueDictionary.ContainsKey(year))
                 {
-                    this._value.Add(year, 0d);
+                    this._valueDictionary.Add(year, 0d);
                 }
 
                 var sumIncome = income.Sum(x => x.GetAmount(year));
@@ -38,21 +38,27 @@
 
                 cash += sumIncome;
                 cash -= sumExpense;
-                
-                this._cash[year] = cash;
 
-                this._value[year] = this._cash[year];
+                // no more cash? sell assets or game over
+                if (cash < 0)
+                {
+                    cash = 0d;
+                }
+
+                this._cashDictionary[year] = cash;
+
+                this._valueDictionary[year] = this._cashDictionary[year];
             }
         }
 
         public double GetTotalValue(int year)
         {
-            return this._value.ContainsKey(year) ? this._value[year] : 0d;
+            return this._valueDictionary.ContainsKey(year) ? this._valueDictionary[year] : 0d;
         }
 
         public double GetCash(int year)
         {
-            return this._cash.ContainsKey(year) ? this._cash[year] : 0d;
+            return this._cashDictionary.ContainsKey(year) ? this._cashDictionary[year] : 0d;
         }
     }
 }

@@ -31,6 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.Mvvm.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="LiteDB, Version=5.0.8.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
       <HintPath>..\packages\LiteDB.5.0.8\lib\net45\LiteDB.dll</HintPath>
     </Reference>
@@ -48,9 +49,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTOs\AssetItemDTO.cs" />
     <Compile Include="DTOs\BudgetItemDTO.cs" />
     <Compile Include="DTOs\SettingsDTO.cs" />
     <Compile Include="Helpers\ApplicationHelper.cs" />
+    <Compile Include="Models\AssetItem.cs" />
     <Compile Include="Models\BudgetItem.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Models\Simulation.cs" />
