@@ -20,6 +20,13 @@
     mc:Ignorable="d">
     <dxmvvm:Interaction.Behaviors>
         <dxmvvm:EventToCommand Command="{Binding LoadedCommand}" EventName="Loaded" />
+        <dx:WindowedDocumentUIService DocumentShowMode="Dialog">
+            <dx:WindowedDocumentUIService.WindowStyle>
+                <Style TargetType="Window">
+                    <Setter Property="ResizeMode" Value="NoResize" />
+                </Style>
+            </dx:WindowedDocumentUIService.WindowStyle>
+        </dx:WindowedDocumentUIService>
     </dxmvvm:Interaction.Behaviors>
     <Grid Margin="4">
         <Grid.RowDefinitions>
@@ -48,7 +55,10 @@
                                 Command="{Binding NewSimulationCommand}"
                                 ShowBorder="False"
                                 Text="new" />
-                            <controls:GridSectionHeaderTextButton ShowBorder="False" Text="settings" />
+                            <controls:GridSectionHeaderTextButton
+                                Command="{Binding ShowSettingsCommand}"
+                                ShowBorder="False"
+                                Text="settings" />
                         </controls:GridSectionHeader.Items>
                     </controls:GridSectionHeader>
                 </controls:GridSection.Header>

@@ -3,11 +3,14 @@
     using System.Threading.Tasks;
     using System.Windows;
 
+    using DevExpress.Mvvm;
     using DevExpress.Mvvm.DataAnnotations;
+    using DevExpress.Mvvm.POCO;
     using DevExpress.Xpf.WindowsUI;
 
     using RetirementSimulator.Core.Models;
     using RetirementSimulator.Core.Services;
+    using RetirementSimulator.Views;
 
     using StructureMap.Attributes;
 
@@ -20,6 +23,8 @@
         public virtual bool IsBusy { get; set; }
 
         public virtual Simulation Simulation { get; set; }
+
+        protected IDocumentManagerService DocumentManagerService => this.GetService<IDocumentManagerService>();
 
         public async void Loaded()
         {
@@ -63,6 +68,14 @@
             {
                 this.IsBusy = false;
             }
+        }
+
+        public void ShowSettings()
+        {
+            var doc = this.DocumentManagerService.CreateDocument(nameof(SettingsView), null, this);
+            doc.Show();
+
+            this.Loaded();
         }
     }
 }

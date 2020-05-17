@@ -158,7 +158,7 @@
                 return dto != null ? new Settings(dto) : null;
             }
 
-            return new Settings();
+            return null;
         }
 
         public void SaveSettings(Settings settings)
