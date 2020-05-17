@@ -1,0 +1,99 @@
+﻿<dx:ThemedWindow
+    x:Class="RetirementSimulator.Views.HomeView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Views="clr-namespace:RetirementSimulator.Views"
+    xmlns:controls="clr-namespace:GridSection.Controls;assembly=GridSection"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:viewModels="clr-namespace:RetirementSimulator.ViewModels"
+    Title="retirement simulator"
+    Width="1000"
+    Height="800"
+    d:DataContext="{d:DesignInstance Type=viewModels:HomeViewModel}"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
+    mc:Ignorable="d">
+    <dxmvvm:Interaction.Behaviors>
+        <dxmvvm:EventToCommand Command="{Binding LoadedCommand}" EventName="Loaded" />
+    </dxmvvm:Interaction.Behaviors>
+    <Grid Margin="4">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="8" />
+            <RowDefinition />
+            <RowDefinition Height="8" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Grid.Row="0"
+            FontFamily="Segoe UI Light"
+            FontSize="28"
+            Opacity="0.6"
+            Text="retirement simulator" />
+
+        <Grid Grid.Row="2">
+            <controls:GridSection>
+                <controls:GridSection.Header>
+                    <controls:GridSectionHeader HorizontalContentAlignment="Right" Label="simulation">
+                        <controls:GridSectionHeader.Items>
+                            <controls:GridSectionHeaderTextButton
+                                Command="{Binding NewSimulationCommand}"
+                                ShowBorder="False"
+                                Text="new" />
+                            <controls:GridSectionHeaderTextButton ShowBorder="False" Text="settings" />
+                        </controls:GridSectionHeader.Items>
+                    </controls:GridSectionHeader>
+                </controls:GridSection.Header>
+                <controls:GridSection.Content>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Orientation="Horizontal">
+                            <TextBlock Text="first year value:" />
+                            <TextBlock Margin="5,0,0,0" Text="{Binding Simulation.FirstYearValue}" />
+                        </StackPanel>
+                    </Grid>
+                </controls:GridSection.Content>
+            </controls:GridSection>
+        </Grid>
+
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="4" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="4" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Views:AssetsView Grid.Column="0" />
+            <Views:IncomeView Grid.Column="2" />
+            <Views:ExpensesView Grid.Column="4" />
+        </Grid>
+
+        <Grid Grid.Row="6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="4" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Views:ResultsView Grid.Column="0" />
+            <Views:ChartView Grid.Column="2" />
+        </Grid>
+
+        <dx:WaitIndicator
+            Grid.Row="0"
+            Grid.RowSpan="7"
+            DeferedVisibility="{Binding IsBusy}" />
+
+    </Grid>
+</dx:ThemedWindow>

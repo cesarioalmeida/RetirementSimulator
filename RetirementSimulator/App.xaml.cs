@@ -11,6 +11,7 @@
     using Prism.Mvvm;
 
     using RetirementSimulator.Core.Services;
+    using RetirementSimulator.Views;
 
     public partial class App
     {
@@ -37,7 +38,7 @@
 
         protected override Window CreateShell()
         {
-            return this.Container.Resolve<MainWindow>();
+            return this.Container.Resolve<HomeView>();
         }
     }
 }

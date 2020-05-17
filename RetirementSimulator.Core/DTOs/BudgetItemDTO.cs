@@ -1,8 +1,10 @@
 ﻿namespace RetirementSimulator.Core.DTOs
 {
+    using LiteDB;
+
     public class BudgetItemDTO
     {
-        public int Id { get; set; }
+        public ObjectId Id { get; set; }
 
         public bool IsExpense { get; set; }
 

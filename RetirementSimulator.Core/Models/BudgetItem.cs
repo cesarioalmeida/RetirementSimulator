@@ -4,6 +4,8 @@
 
     using DevExpress.Mvvm.DataAnnotations;
 
+    using LiteDB;
+
     using RetirementSimulator.Core.DTOs;
 
     [POCOViewModel]
@@ -13,6 +15,7 @@
 
         public BudgetItem(double inflationRate)
         {
+            this.Id = ObjectId.NewObjectId();
             this._inflationRate = inflationRate;
             this.EndYear = 2300;
         }

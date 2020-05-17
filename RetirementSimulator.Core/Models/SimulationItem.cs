@@ -2,9 +2,11 @@
 {
     using DevExpress.Mvvm;
 
+    using LiteDB;
+
     public class SimulationItem : BindableBase
     {
-        public int Id { get; set; }
+        public ObjectId Id { get; set; }
 
         public string Name
         {

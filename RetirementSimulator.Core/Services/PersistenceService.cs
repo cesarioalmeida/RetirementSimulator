@@ -14,6 +14,7 @@
     {
         private const string BudgetItemsColletion = "BudgetItems";
         private const string AssetItemsColletion = "AssetItems";
+        private const string SimulationColletion = "Simulation";
         private const string SettingsColletion = "Settings";
 
         private static readonly string DbLocation = Path.Combine(ApplicationHelper.GetAppDataFolder(), "DB.db");
@@ -28,6 +29,19 @@
             {
                 var settings = this.GetSettings();
                 var budgetDtos = this._db.GetCollection<BudgetItemDTO>(BudgetItemsColletion).FindAll();
+
+                return budgetDtos?.Select(x => new BudgetItem(settings.InflationRate, x));
+            }
+
+            return Enumerable.Empty<BudgetItem>();
+        }
+
+        public IEnumerable<BudgetItem> GetBudgetItems(IReadOnlyCollection<ObjectId> ids)
+        {
+            if (this._db.CollectionExists(BudgetItemsColletion))
+            {
+                var settings = this.GetSettings();
+                var budgetDtos = this._db.GetCollection<BudgetItemDTO>(BudgetItemsColletion).Find(x => ids.Contains(x.Id));
 
                 return budgetDtos?.Select(x => new BudgetItem(settings.InflationRate, x));
             }
@@ -66,7 +80,6 @@
             var dto = item.GetDTO();
             var budgetItemsTable = this._db.GetCollection<BudgetItemDTO>(BudgetItemsColletion);
             budgetItemsTable.Upsert(dto);
-            item.Id = dto.Id;
         }
 
         public void DeleteBudgetItem(BudgetItem item)
@@ -87,12 +100,23 @@
             return Enumerable.Empty<AssetItem>();
         }
 
+        public IEnumerable<AssetItem> GetAssetItems(IReadOnlyCollection<ObjectId> ids)
+        {
+            if (this._db.CollectionExists(AssetItemsColletion))
+            {
+                var dtos = this._db.GetCollection<AssetItemDTO>(AssetItemsColletion).Find(x => ids.Contains(x.Id));
+
+                return dtos?.Select(x => new AssetItem(x));
+            }
+
+            return Enumerable.Empty<AssetItem>();
+        }
+
         public void SaveAssetItem(AssetItem item)
         {
             var dto = item.GetDTO();
             var table = this._db.GetCollection<AssetItemDTO>(AssetItemsColletion);
             table.Upsert(dto);
-            item.Id = dto.Id;
         }
 
         public void DeleteAssetItem(AssetItem item)
@@ -101,13 +125,37 @@
             table.Delete(item.Id);
         }
 
+        public Simulation GetSimulation()
+        {
+            if (this._db.CollectionExists(SimulationColletion))
+            {
+                var dto = this._db.GetCollection<SimulationDTO>(SimulationColletion).FindAll().LastOrDefault();
+                return dto != null ? new Simulation(dto, this.GetBudgetItems(dto.BudgetItemsIds), this.GetAssetItems(dto.AssetItemsIds)) : null;
+            }
+
+            return null;
+        }
+
+        public void SaveSimulation(Simulation item)
+        {
+            var dto = item.GetDTO();
+            var table = this._db.GetCollection<SimulationDTO>(SimulationColletion);
+            table.Upsert(dto);
+        }
+
+        public void DeleteSimulation(Simulation item)
+        {
+            var table = this._db.GetCollection<SimulationDTO>(SimulationColletion);
+            table.Delete(item.Id);
+        }
+
         public Settings GetSettings()
         {
             if (this._db.CollectionExists(SettingsColletion))
             {
-                var dto = this._db.GetCollection<SettingsDTO>(SettingsColletion).FindAll().First();
+                var dto = this._db.GetCollection<SettingsDTO>(SettingsColletion).FindAll().LastOrDefault();
 
-                return new Settings(dto);
+                return dto != null ? new Settings(dto) : null;
             }
 
             return new Settings();
@@ -118,7 +166,6 @@
             var dto = settings.GetDTO();
             var table = this._db.GetCollection<SettingsDTO>(SettingsColletion);
             table.Upsert(dto);
-            settings.Id = dto.Id;
         }
 
         public void DeleteSettings(Settings settings)

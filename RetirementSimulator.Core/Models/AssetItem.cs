@@ -4,6 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using LiteDB;
+
     using RetirementSimulator.Core.DTOs;
 
     public class AssetItem : SimulationItem
@@ -34,6 +36,7 @@
 
         public AssetItem()
         {
+            this.Id = ObjectId.NewObjectId();
             this.CanSellPartial = true;
             this.EndYear = 2300;
         }
