@@ -40,6 +40,15 @@
                 IsAffectedByInflationRate = false
             };
 
+        private readonly Func<double, double, double, AssetItem> _assetItemFactory =
+            (initial, percentChange, income) => new AssetItem
+            {
+                StartYear = 2020,
+                InitialValue = initial,
+                PercentageChangePerYear = percentChange,
+                IncomePercentagePerYear = income
+            };
+
         private Simulation _simulation;
 
         [SetUp]
@@ -175,6 +184,55 @@
 
             this.AssertTotalValue(60, 20, 0);
             this.AssertCash(60, 20, 0);
+        }
+
+        [Test]
+        public void OneAsset_WithDividend()
+        {
+            this._simulation.Items.Add(this._assetItemFactory(10d, 0d, 0.1d));
+            this._simulation.Run();
+
+            this.AssertTotalValue(11, 12, 14);
+            this.AssertCash(1, 2, 4);
+        }
+
+        [Test]
+        public void RunOutOfCash_SellAsset()
+        {
+            this._simulation.Items.Add(this._cashItemFactory(2020, 100d));
+            this._simulation.Items.Add(this._expenseItemFactory(2021, 80d, 0d, false));
+            this._simulation.Items.Add(this._assetItemFactory(100d, 0d, 0.1d));
+            this._simulation.Run();
+
+            this.AssertTotalValue(210, 140, 0);
+            this.AssertCash(110, 40, 0);
+        }
+
+        [Test]
+        public void TwoAssets_RunOutOfCash_SoldAll()
+        {
+            this._simulation.Items.Add(this._cashItemFactory(2020, 10d));
+            this._simulation.Items.Add(this._expenseItemFactory(2021, 80d, 0d, false));
+            this._simulation.Items.Add(this._assetItemFactory(100d, 0d, 0.1d));
+            this._simulation.Items.Add(this._assetItemFactory(50d, 0d, 0.1d));
+            this._simulation.Run();
+
+            this.AssertTotalValue(175, 110, 0);
+            this.AssertCash(25, 0, 0);
+        }
+
+        [Test]
+        public void AssetCannotSellPartial_RunOutOfCash_SellAsset()
+        {
+            this._simulation.Items.Add(this._cashItemFactory(2020, 100d));
+            this._simulation.Items.Add(this._expenseItemFactory(2020, 80d, 0d, false));
+            var assetItem = this._assetItemFactory(100d, 0d, 0.1d);
+            assetItem.CanSellPartial = false;
+            this._simulation.Items.Add(assetItem);
+            this._simulation.Run();
+
+            this.AssertTotalValue(130, 60, 0);
+            this.AssertCash(30, 60, 0);
         }
 
         private void AssertTotalValue(double valueYear0, double valueYear1, double valueYear3)

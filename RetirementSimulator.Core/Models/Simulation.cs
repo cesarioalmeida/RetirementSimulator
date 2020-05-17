@@ -25,6 +25,8 @@
             var income = this.Items.OfType<BudgetItem>().Where(x => !x.IsExpense).ToArray();
             var expenses = this.Items.OfType<BudgetItem>().Where(x => x.IsExpense).ToArray();
 
+            var assets = this.Items.OfType<AssetItem>().ToList();
+
             var cash = 0d;
             for (var year = this.StartYear; year <= this.EndYear; year++)
             {
@@ -34,20 +36,40 @@
                 }
 
                 var sumIncome = income.Sum(x => x.GetAmount(year));
+                sumIncome += assets.Sum(x => x.GetAmount(year));
+
                 var sumExpense = expenses.Sum(x => x.GetAmount(year));
 
                 cash += sumIncome;
                 cash -= sumExpense;
 
-                // no more cash? sell assets or game over
+                // no more cash
                 if (cash < 0)
                 {
-                    cash = 0d;
+                    // sell assets
+                    while (cash < 0 && assets.Any())
+                    {
+                        var assetToSell = assets.Last();
+                        if (assetToSell.CanSellPartial && assetToSell.GetValue(year) > -cash)
+                        {
+                            cash += assetToSell.Sell(year, -cash).InitialValue;
+                        }
+                        else
+                        {
+                            cash += assetToSell.SellAll(year).InitialValue;
+                            assets.Remove(assetToSell);
+                        }
+                    }
+
+                    if (cash < 0)
+                    {
+                        cash = 0d;
+                    }
                 }
 
                 this._cashDictionary[year] = cash;
 
-                this._valueDictionary[year] = this._cashDictionary[year];
+                this._valueDictionary[year] = this._cashDictionary[year] + assets.Sum(x => x.GetValue(year));
             }
         }
 
@@ -59,6 +81,11 @@
         public double GetCash(int year)
         {
             return this._cashDictionary.ContainsKey(year) ? this._cashDictionary[year] : 0d;
+        }
+
+        public double GetAssets(int year)
+        {
+            return this._valueDictionary.ContainsKey(year) ? this._valueDictionary[year] - this._cashDictionary[year] : 0d;
         }
     }
 }

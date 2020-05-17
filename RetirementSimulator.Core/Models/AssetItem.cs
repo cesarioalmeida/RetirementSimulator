@@ -21,19 +21,20 @@
 
         private readonly Func<int, double, BudgetItem> _expenseFactory =
             (year, initial) => new BudgetItem(0d)
-                                   {
-                                       StartYear = year,
-                                       EndYear = year,
-                                       InitialValue = initial,
-                                       IsExpense = true,
-                                       PercentageChangePerYear = 0d,
-                                       IsAffectedByInflationRate = false
-                                   };
+            {
+                StartYear = year,
+                EndYear = year,
+                InitialValue = initial,
+                IsExpense = true,
+                PercentageChangePerYear = 0d,
+                IsAffectedByInflationRate = false
+            };
 
         private readonly Dictionary<int, double> _valueDictionary = new Dictionary<int, double>();
 
         public AssetItem()
         {
+            this.CanSellPartial = true;
             this.EndYear = 2300;
         }
 
@@ -46,6 +47,7 @@
             this.InitialValue = dto.InitialValue;
             this.PercentageChangePerYear = dto.PercentageChangePerYear;
             this.IncomePercentagePerYear = dto.IncomePercentagePerYear;
+            this.CanSellPartial = dto.CanSellPartial;
         }
 
         public double PercentageChangePerYear
@@ -57,6 +59,12 @@
         public double IncomePercentagePerYear
         {
             get => this.GetValue<double>();
+            set => this.SetValue(value);
+        }
+
+        public bool CanSellPartial
+        {
+            get => this.GetValue<bool>();
             set => this.SetValue(value);
         }
 
@@ -124,7 +132,8 @@
                 EndYear = this.EndYear,
                 InitialValue = this.InitialValue,
                 PercentageChangePerYear = this.PercentageChangePerYear,
-                IncomePercentagePerYear = this.IncomePercentagePerYear
+                IncomePercentagePerYear = this.IncomePercentagePerYear,
+                CanSellPartial = this.CanSellPartial
             };
         }
 
@@ -163,7 +172,7 @@
 
         private void InitializeValueDictionary()
         {
-            if (!this._valueDictionary.Any() & this.EndYear > this.StartYear)
+            if (!this._valueDictionary.Any() && this.StartYear != 0 && this.EndYear > this.StartYear)
             {
                 for (var year = this.StartYear; year <= this.EndYear; year++)
                 {

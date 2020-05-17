@@ -15,5 +15,7 @@
         public double PercentageChangePerYear { get; set; }
 
         public double IncomePercentagePerYear { get; set; }
+
+        public bool CanSellPartial { get; set; }
     }
 }
