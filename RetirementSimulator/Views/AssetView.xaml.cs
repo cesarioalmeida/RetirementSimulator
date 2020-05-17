@@ -1,8 +1,8 @@
 ﻿namespace RetirementSimulator.Views
 {
-    public partial class SettingsView
+    public partial class AssetView
     {
-        public SettingsView()
+        public AssetView()
         {
             this.InitializeComponent();
         }

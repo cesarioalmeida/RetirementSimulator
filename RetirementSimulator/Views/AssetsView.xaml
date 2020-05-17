@@ -14,7 +14,10 @@
         <controls:GridSection.Header>
             <controls:GridSectionHeader HorizontalContentAlignment="Right" Label="assets">
                 <controls:GridSectionHeader.Items>
-                    <controls:GridSectionHeaderTextButton ShowBorder="False" Text="add" />
+                    <controls:GridSectionHeaderTextButton
+                        Command="{Binding AddAssetCommand}"
+                        ShowBorder="False"
+                        Text="add" />
                     <controls:GridSectionHeaderTextButton ShowBorder="False" Text="edit" />
                     <controls:GridSectionHeaderTextButton ShowBorder="False" Text="delete" />
                 </controls:GridSectionHeader.Items>

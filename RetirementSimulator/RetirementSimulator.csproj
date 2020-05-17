@@ -92,6 +92,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\AssetViewModel.cs" />
     <Compile Include="Views\ResultsView.xaml.cs">
       <DependentUpon>ResultsView.xaml</DependentUpon>
     </Compile>
@@ -106,6 +107,9 @@
     </Compile>
     <Compile Include="Views\AssetsView.xaml.cs">
       <DependentUpon>AssetsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AssetView.xaml.cs">
+      <DependentUpon>AssetView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
@@ -143,6 +147,10 @@
     <Page Include="Views\AssetsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AssetView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SettingsView.xaml">
       <SubType>Designer</SubType>

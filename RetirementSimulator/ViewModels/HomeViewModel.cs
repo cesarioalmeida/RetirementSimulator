@@ -36,11 +36,15 @@
                 if (this.Simulation == null)
                 {
                     this.Simulation = new Simulation();
+
                     await Task.Run(() => this.PersistenceService.SaveSimulation(this.Simulation));
                 }
+
+                await Task.Run(() => this.Simulation.Run());
             }
             finally
             {
+                this.RaisePropertyChanged(x => x.Simulation);
                 this.IsBusy = false;
             }
         }
@@ -74,6 +78,22 @@
         {
             var doc = this.DocumentManagerService.CreateDocument(nameof(SettingsView), null, this);
             doc.Show();
+
+            this.Loaded();
+        }
+
+        public async void AddAsset()
+        {
+            var asset = new AssetItem();
+            var doc = this.DocumentManagerService.CreateDocument(nameof(AssetView), asset, this);
+            doc.Show();
+
+            var vm = doc.Content as AssetViewModel;
+            if (vm?.IsOK ?? false)
+            {
+                this.Simulation.Items.Add(vm.Asset);
+                await Task.Run(() => this.PersistenceService.SaveSimulation(this.Simulation));
+            }
 
             this.Loaded();
         }

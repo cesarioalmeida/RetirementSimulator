@@ -38,6 +38,7 @@
         {
             this.Id = ObjectId.NewObjectId();
             this.CanSellPartial = true;
+            this.StartYear = 2020;
             this.EndYear = 2300;
         }
 

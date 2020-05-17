@@ -37,14 +37,14 @@
                 <dxlc:LayoutItem AddColonToLabel="True" Label="inflation rate">
                     <dxe:TextEdit
                         EditValue="{Binding Settings.InflationRate}"
-                        Mask="p2"
+                        Mask="p1"
                         MaskType="Numeric"
                         MaskUseAsDisplayFormat="True" />
                 </dxlc:LayoutItem>
                 <dxlc:LayoutItem AddColonToLabel="True" Label="starting age">
                     <dxe:TextEdit
                         EditValue="{Binding Settings.AgeAtStartDate}"
-                        Mask="n0"
+                        Mask="##"
                         MaskType="Numeric"
                         MaskUseAsDisplayFormat="True" />
                 </dxlc:LayoutItem>
