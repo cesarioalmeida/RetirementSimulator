@@ -80,7 +80,7 @@
 
         public BudgetItem Sell(int year, double value)
         {
-            if (this._valueDictionary[year] < value)
+            if (!this._valueDictionary.ContainsKey(year) || this._valueDictionary[year] < value)
             {
                 return this._incomeFactory(year, 0d);
             }
@@ -91,8 +91,17 @@
 
         public BudgetItem SellAll(int year)
         {
-            this.EndYear = year;
+            if (!this._valueDictionary.ContainsKey(year))
+            {
+                return this._incomeFactory(year, 0d);
+            }
+
             var result = this._valueDictionary[year];
+
+            for (var x = year; x <= this.EndYear; x++)
+            {
+                this._valueDictionary[year] = 0d;
+            }
 
             return this._incomeFactory(year, result);
         }

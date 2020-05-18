@@ -1,15 +1,19 @@
 ﻿namespace RetirementSimulator.ViewModels
 {
+    using System.Collections.Generic;
+    using System.Dynamic;
     using System.Threading.Tasks;
     using System.Windows;
 
     using DevExpress.Mvvm;
     using DevExpress.Mvvm.DataAnnotations;
     using DevExpress.Mvvm.POCO;
+    using DevExpress.Xpf.Grid;
     using DevExpress.Xpf.WindowsUI;
 
     using RetirementSimulator.Core.Models;
     using RetirementSimulator.Core.Services;
+    using RetirementSimulator.Models;
     using RetirementSimulator.Views;
 
     using StructureMap.Attributes;
@@ -30,6 +34,10 @@
 
         public virtual BudgetItem SelectedExpense { get; set; }
 
+        public virtual List<Column> ResultColumns { get; set; }
+
+        public virtual List<ExpandoObject> ResultRows { get; set; }
+
         protected IDocumentManagerService DocumentManagerService => this.GetService<IDocumentManagerService>();
 
         public async void Loaded()
@@ -47,10 +55,14 @@
                 }
 
                 await Task.Run(() => this.Simulation.Run());
+
+                await Task.Run(this.PrepareResults);
             }
             finally
             {
                 this.RaisePropertyChanged(x => x.Simulation);
+                this.RaisePropertyChanged(x => x.ResultColumns);
+                this.RaisePropertyChanged(x => x.ResultRows);
                 this.IsBusy = false;
             }
         }
@@ -240,6 +252,50 @@
         public bool CanDeleteExpense()
         {
             return this.SelectedExpense != null;
+        }
+
+        private void PrepareResults()
+        {
+            this.ResultColumns = new List<Column>
+                                     {
+                                         new Column("year", "year", ColumnFieldTypes.Int, "####", FixedStyle.Left),
+                                         new Column("myage", "my age", ColumnFieldTypes.Int, "###", FixedStyle.Left),
+                                         new Column("totalvalue", "total value", ColumnFieldTypes.Currency, "c0"),
+                                         new Column("cash", "cash", ColumnFieldTypes.Currency, "c0"),
+                                         new Column("assets", "assets", ColumnFieldTypes.Currency, "c0")
+                                     };
+
+            foreach (var item in this.Simulation.Items)
+            {
+                this.ResultColumns.Add(new Column(item.Id.ToString(), item.Name, ColumnFieldTypes.Currency, "c0"));
+            }
+
+
+            this.ResultRows = new List<ExpandoObject>();
+
+            var age = this.PersistenceService.GetSettings().AgeAtStartDate;
+            for (var year = this.Simulation.StartYear; year <= this.Simulation.EndYear; year++)
+            {
+                IDictionary<string, object> row = new ExpandoObject();
+                row["year"] = year;
+                row["myage"] = age++;
+                row["totalvalue"] = this.Simulation.GetTotalValue(year);
+                row["cash"] = this.Simulation.GetCash(year);
+                row["assets"] = this.Simulation.GetAssets(year);
+
+                foreach (var item in this.Simulation.Items)
+                {
+                    row[item.Id.ToString()] = item.GetAmount(year);
+                }
+
+                this.ResultRows.Add((ExpandoObject)row);
+
+                if (age >= 120)
+                {
+                    break;
+                }
+            }
+
         }
     }
 }

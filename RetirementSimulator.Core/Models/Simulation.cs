@@ -8,9 +8,6 @@
     using LiteDB;
 
     using RetirementSimulator.Core.DTOs;
-    using RetirementSimulator.Core.Services;
-
-    using StructureMap.Attributes;
 
     public class Simulation : BindableBase
     {
@@ -41,9 +38,6 @@
                 this.Items.AddRange(assetItems);
             }
         }
-
-        [SetterProperty]
-        public PersistenceService PersistenceService { get; set; }
 
         public ObjectId Id { get; set; }
 
