@@ -55,6 +55,8 @@
 
         public double FirstYearValue => this.GetTotalValue(this.StartYear);
 
+        public IEnumerable<AssetItem> Assets => this.Items.OfType<AssetItem>();
+
         public void Run()
         {
             this._valueDictionary = new Dictionary<int, double>();

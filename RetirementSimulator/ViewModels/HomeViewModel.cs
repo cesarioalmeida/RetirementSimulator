@@ -24,6 +24,8 @@
 
         public virtual Simulation Simulation { get; set; }
 
+        public virtual AssetItem SelectedAsset { get; set; }
+
         protected IDocumentManagerService DocumentManagerService => this.GetService<IDocumentManagerService>();
 
         public async void Loaded()
@@ -96,6 +98,40 @@
             }
 
             this.Loaded();
+        }
+
+        public void EditAsset()
+        {
+            var doc = this.DocumentManagerService.CreateDocument(nameof(AssetView), this.SelectedAsset, this);
+            doc.Show();
+
+            this.Loaded();
+        }
+
+        public bool CanEditAsset()
+        {
+            return this.SelectedAsset != null;
+        }
+
+        public async void DeleteAsset()
+        {
+            if (WinUIMessageBox.Show(
+                    $"Are you sure you want to delete the asset {this.SelectedAsset}?",
+                    "delete asset",
+                    MessageBoxButton.OKCancel) != MessageBoxResult.OK)
+            {
+                return;
+            }
+
+            this.Simulation.Items.Remove(this.SelectedAsset);
+            await Task.Run(() => this.PersistenceService.DeleteAssetItem(this.SelectedAsset));
+
+            this.Loaded();
+        }
+
+        public bool CanDeleteAsset()
+        {
+            return this.SelectedAsset != null;
         }
     }
 }

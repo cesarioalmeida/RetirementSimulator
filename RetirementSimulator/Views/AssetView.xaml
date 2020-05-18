@@ -8,6 +8,8 @@
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mvvm="http://prismlibrary.com/"
+    xmlns:viewModels="clr-namespace:RetirementSimulator.ViewModels"
+    d:DataContext="{d:DesignInstance Type=viewModels:AssetViewModel}"
     d:DesignHeight="300"
     d:DesignWidth="300"
     mvvm:ViewModelLocator.AutoWireViewModel="True"
@@ -54,7 +56,8 @@
                             IsReadOnly="{Binding IsChecked, ElementName=NoEndDateCheckEdit}"
                             Mask="####"
                             MaskType="Numeric"
-                            MaskUseAsDisplayFormat="True" />
+                            MaskUseAsDisplayFormat="True"
+                            ToolTip="when is this asset going to be sold/mature" />
                         <dxe:CheckEdit
                             x:Name="NoEndDateCheckEdit"
                             Grid.Column="1"
@@ -65,14 +68,14 @@
                 </dxlc:LayoutItem>
                 <dxlc:LayoutItem AddColonToLabel="True" Label="initial value">
                     <dxe:TextEdit
-                        EditValue="{Binding Asset.InitialValue}"
+                        EditValue="{Binding Asset.InitialValue, UpdateSourceTrigger=PropertyChanged}"
                         Mask="c0"
                         MaskType="Numeric"
                         MaskUseAsDisplayFormat="True" />
                 </dxlc:LayoutItem>
                 <dxlc:LayoutItem
                     AddColonToLabel="True"
-                    Label="income % per year"
+                    Label="interest % per year"
                     ToolTip="the expected income (dividends or coupons) per year">
                     <dxe:TextEdit
                         EditValue="{Binding Asset.IncomePercentagePerYear}"
