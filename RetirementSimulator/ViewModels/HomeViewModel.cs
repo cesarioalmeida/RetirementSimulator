@@ -26,6 +26,8 @@
 
         public virtual AssetItem SelectedAsset { get; set; }
 
+        public virtual BudgetItem SelectedIncome { get; set; }
+
         protected IDocumentManagerService DocumentManagerService => this.GetService<IDocumentManagerService>();
 
         public async void Loaded()
@@ -132,6 +134,58 @@
         public bool CanDeleteAsset()
         {
             return this.SelectedAsset != null;
+        }
+
+        public async void AddIncome()
+        {
+            var settings = await Task.Run(() => this.PersistenceService.GetSettings());
+
+            var income = new BudgetItem(settings.InflationRate);
+            var doc = this.DocumentManagerService.CreateDocument(nameof(IncomeItemView), income, this);
+            doc.Show();
+
+            var vm = doc.Content as IncomeItemViewModel;
+            if (vm?.IsOK ?? false)
+            {
+                this.Simulation.Items.Add(vm.IncomeItem);
+                await Task.Run(() => this.PersistenceService.SaveSimulation(this.Simulation));
+            }
+
+            this.Loaded();
+        }
+
+        public void EditIncome()
+        {
+            var doc = this.DocumentManagerService.CreateDocument(nameof(IncomeItemView), this.SelectedIncome, this);
+            doc.Show();
+
+            this.Loaded();
+        }
+
+        public bool CanEditIncome()
+        {
+            return this.SelectedIncome != null;
+        }
+
+        public async void DeleteIncome()
+        {
+            if (WinUIMessageBox.Show(
+                    $"Are you sure you want to delete the income {this.SelectedIncome}?",
+                    "delete income",
+                    MessageBoxButton.OKCancel) != MessageBoxResult.OK)
+            {
+                return;
+            }
+
+            this.Simulation.Items.Remove(this.SelectedIncome);
+            await Task.Run(() => this.PersistenceService.DeleteBudgetItem(this.SelectedIncome));
+
+            this.Loaded();
+        }
+
+        public bool CanDeleteIncome()
+        {
+            return this.SelectedIncome != null;
         }
     }
 }

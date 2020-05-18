@@ -57,6 +57,8 @@
 
         public IEnumerable<AssetItem> Assets => this.Items.OfType<AssetItem>();
 
+        public IEnumerable<BudgetItem> IncomeItems => this.Items.OfType<BudgetItem>().Where(x => !x.IsExpense);
+
         public void Run()
         {
             this._valueDictionary = new Dictionary<int, double>();

@@ -4,8 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:GridSection.Controls;assembly=GridSection"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
     xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:RetirementSimulator.ViewModels"
+    d:DataContext="{d:DesignInstance Type=viewModels:HomeViewModel}"
     d:DesignHeight="300"
     d:DesignWidth="300"
     mc:Ignorable="d">
@@ -14,14 +17,60 @@
         <controls:GridSection.Header>
             <controls:GridSectionHeader HorizontalContentAlignment="Right" Label="income">
                 <controls:GridSectionHeader.Items>
-                    <controls:GridSectionHeaderTextButton ShowBorder="False" Text="add" />
-                    <controls:GridSectionHeaderTextButton ShowBorder="False" Text="edit" />
-                    <controls:GridSectionHeaderTextButton ShowBorder="False" Text="delete" />
+                    <controls:GridSectionHeaderTextButton
+                        Command="{Binding AddIncomeCommand}"
+                        ShowBorder="False"
+                        Text="add" />
+                    <controls:GridSectionHeaderTextButton
+                        Command="{Binding EditIncomeCommand}"
+                        ShowBorder="False"
+                        Text="edit" />
+                    <controls:GridSectionHeaderTextButton
+                        Command="{Binding DeleteIncomeCommand}"
+                        ShowBorder="False"
+                        Text="delete" />
                 </controls:GridSectionHeader.Items>
             </controls:GridSectionHeader>
         </controls:GridSection.Header>
         <controls:GridSection.Content>
-            <dxg:GridControl />
+            <dxg:GridControl
+                ItemsSource="{Binding Simulation.IncomeItems}"
+                SelectedItem="{Binding SelectedIncome}"
+                SelectionMode="Row">
+                <dxg:GridControl.Columns>
+                    <dxg:GridColumn
+                        FieldName="Name"
+                        Fixed="Left"
+                        Header="Name"
+                        ReadOnly="True" />
+                    <dxg:GridColumn
+                        FieldName="StartYear"
+                        Header="Start"
+                        ReadOnly="True" />
+                    <dxg:GridColumn
+                        FieldName="EndYear"
+                        Header="End"
+                        ReadOnly="True" />
+                    <dxg:GridColumn
+                        EditSettings="{dxe:TextSettings DisplayFormat=c0}"
+                        FieldName="InitialValue"
+                        Header="Value"
+                        ReadOnly="True" />
+                    <dxg:GridColumn
+                        EditSettings="{dxe:TextSettings DisplayFormat=p1}"
+                        FieldName="PercentageChangePerYear"
+                        Header="change (%)"
+                        ReadOnly="True" />
+                    <dxg:GridColumn
+                        EditSettings="{dxe:CheckSettings}"
+                        FieldName="IsAffectedByInflationRate"
+                        Header="inflation"
+                        ReadOnly="True" />
+                </dxg:GridControl.Columns>
+                <dxg:GridControl.View>
+                    <dxg:TableView NavigationStyle="Row" ShowGroupPanel="False" />
+                </dxg:GridControl.View>
+            </dxg:GridControl>
         </controls:GridSection.Content>
     </controls:GridSection>
 
