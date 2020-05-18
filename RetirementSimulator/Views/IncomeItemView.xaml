@@ -15,9 +15,16 @@
     mvvm:ViewModelLocator.AutoWireViewModel="True"
     FontSize="14"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <dxmvvm:ObjectToObjectConverter x:Key="StartYearLabelConverter">
+            <dxmvvm:MapItem Source="true" Target="year" />
+            <dxmvvm:MapItem Source="false" Target="start year" />
+        </dxmvvm:ObjectToObjectConverter>
+    </UserControl.Resources>
     <dxmvvm:Interaction.Behaviors>
         <dxmvvm:EventToCommand Command="{Binding LoadedCommand}" EventName="Loaded" />
     </dxmvvm:Interaction.Behaviors>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -31,20 +38,26 @@
             FontFamily="Segoe UI Light"
             FontSize="23"
             Opacity="0.6"
-            Text="income" />
+            Text="income &amp; cash" />
         <dxlc:LayoutControl Grid.Row="1">
             <dxlc:LayoutGroup ItemLabelsAlignment="Local" Orientation="Vertical">
+                <dxlc:LayoutItem AddColonToLabel="True" Label="is cash">
+                    <dxe:CheckEdit x:Name="IsCashCheckEdit" EditValue="{Binding IsCash, UpdateSourceTrigger=PropertyChanged}" />
+                </dxlc:LayoutItem>
                 <dxlc:LayoutItem AddColonToLabel="True" Label="name">
                     <dxe:TextEdit EditValue="{Binding IncomeItem.Name, UpdateSourceTrigger=PropertyChanged}" MaskUseAsDisplayFormat="True" />
                 </dxlc:LayoutItem>
-                <dxlc:LayoutItem AddColonToLabel="True" Label="start year">
+                <dxlc:LayoutItem AddColonToLabel="True" Label="{Binding IsCash, Converter={StaticResource StartYearLabelConverter}}">
                     <dxe:TextEdit
                         EditValue="{Binding IncomeItem.StartYear}"
                         Mask="####"
                         MaskType="Numeric"
                         MaskUseAsDisplayFormat="True" />
                 </dxlc:LayoutItem>
-                <dxlc:LayoutItem AddColonToLabel="True" Label="end year">
+                <dxlc:LayoutItem
+                    AddColonToLabel="True"
+                    Label="end year"
+                    Visibility="{Binding IsCash, Converter={dxmvvm:BooleanToVisibilityConverter Inverse=True}}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
@@ -76,7 +89,8 @@
                 <dxlc:LayoutItem
                     AddColonToLabel="True"
                     Label="expected % change per year"
-                    ToolTip="how much are you expecting this income to raise/fall in a year">
+                    ToolTip="how much are you expecting this income to raise/fall in a year"
+                    Visibility="{Binding IsCash, Converter={dxmvvm:BooleanToVisibilityConverter Inverse=True}}">
                     <dxe:TextEdit
                         EditValue="{Binding IncomeItem.PercentageChangePerYear}"
                         Mask="p1"
@@ -86,7 +100,8 @@
                 <dxlc:LayoutItem
                     AddColonToLabel="True"
                     Label="affected by inflation"
-                    ToolTip="is this income affect by the inflation rate">
+                    ToolTip="is this income affect by the inflation rate"
+                    Visibility="{Binding IsCash, Converter={dxmvvm:BooleanToVisibilityConverter Inverse=True}}">
                     <dxe:CheckEdit EditValue="{Binding IncomeItem.IsAffectedByInflationRate}" />
                 </dxlc:LayoutItem>
             </dxlc:LayoutGroup>

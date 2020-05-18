@@ -15,7 +15,7 @@
 
     <controls:GridSection>
         <controls:GridSection.Header>
-            <controls:GridSectionHeader HorizontalContentAlignment="Right" Label="income">
+            <controls:GridSectionHeader HorizontalContentAlignment="Right" Label="income &amp; cash">
                 <controls:GridSectionHeader.Items>
                     <controls:GridSectionHeaderTextButton
                         Command="{Binding AddIncomeCommand}"

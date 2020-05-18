@@ -14,7 +14,7 @@
     [POCOViewModel]
     public class IncomeItemViewModel : IDocumentContent, ISupportParameter
     {
-        public object Title => "Income";
+        public object Title => "Income & Cash";
 
         public IDocumentOwner DocumentOwner { get; set; }
 
@@ -26,6 +26,8 @@
         public virtual BudgetItem IncomeItem { get; set; }
 
         public virtual bool IsNoEndDate { get; set; }
+
+        public virtual bool IsCash { get; set; }
 
         [BindableProperty(false)]
         public bool IsOK { get; private set; }
@@ -40,6 +42,11 @@
             if (this.IsNoEndDate)
             {
                 this.IncomeItem.EndYear = 2300;
+            }
+
+            if (this.IsCash)
+            {
+                this.IncomeItem.EndYear = this.IncomeItem.StartYear;
             }
 
             await Task.Run(() => this.PersistenceService.SaveBudgetItem(this.IncomeItem));
