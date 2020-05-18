@@ -283,7 +283,6 @@
                 this.ResultColumns.Add(new Column(item.Id.ToString(), item.Name, ColumnFieldTypes.Currency, "c0"));
             }
 
-
             this.ResultRows = new List<ExpandoObject>();
 
             var age = this.PersistenceService.GetSettings().AgeAtStartDate;
