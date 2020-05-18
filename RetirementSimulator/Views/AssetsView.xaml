@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
     xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:RetirementSimulator.ViewModels"
     d:DataContext="{d:DesignInstance Type=viewModels:HomeViewModel}"
@@ -68,7 +69,11 @@
                         ReadOnly="True" />
                 </dxg:GridControl.Columns>
                 <dxg:GridControl.View>
-                    <dxg:TableView NavigationStyle="Row" ShowGroupPanel="False" />
+                    <dxg:TableView NavigationStyle="Row" ShowGroupPanel="False">
+                        <dxmvvm:Interaction.Behaviors>
+                            <dxmvvm:EventToCommand Command="{Binding EditAssetCommand}" EventName="MouseDoubleClick" />
+                        </dxmvvm:Interaction.Behaviors>
+                    </dxg:TableView>
                 </dxg:GridControl.View>
             </dxg:GridControl>
         </controls:GridSection.Content>
