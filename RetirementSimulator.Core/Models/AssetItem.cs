@@ -103,6 +103,8 @@
                 this._valueDictionary[year] = 0d;
             }
 
+            this.EndYear = year;
+
             return this._incomeFactory(year, result);
         }
 
