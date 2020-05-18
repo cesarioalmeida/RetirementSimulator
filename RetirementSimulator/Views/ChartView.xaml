@@ -52,66 +52,71 @@
                             <dxc:AxisX2D GridLinesVisible="False" />
                         </dxc:XYDiagram2D.AxisX>
                         <dxc:XYDiagram2D.Series>
-                            <dxc:LineSeries2D
+                            <dxc:SplineSeries2D
                                 ArgumentDataMember="{Binding ChartArgument}"
+                                CrosshairLabelPattern="{}{S}: {V:c0}"
                                 DisplayName="Total Value"
                                 LabelsVisibility="False"
                                 MarkerVisible="False"
                                 ShowInLegend="True"
                                 ValueDataMember="TotalValue">
-                                <dxc:LineSeries2D.LineStyle>
-                                    <dxc:LineStyle Thickness="3" />
-                                </dxc:LineSeries2D.LineStyle>
-                            </dxc:LineSeries2D>
-                            <dxc:LineSeries2D
+                                <dxc:SplineSeries2D.LineStyle>
+                                    <dxc:LineStyle Thickness="4" />
+                                </dxc:SplineSeries2D.LineStyle>
+                            </dxc:SplineSeries2D>
+                            <dxc:SplineSeries2D
                                 ArgumentDataMember="{Binding ChartArgument}"
+                                CrosshairLabelPattern="{}{S}: {V:c0}"
                                 DisplayName="Cash"
                                 LabelsVisibility="False"
                                 MarkerVisible="False"
                                 ShowInLegend="True"
                                 ValueDataMember="Cash">
-                                <dxc:LineSeries2D.LineStyle>
+                                <dxc:SplineSeries2D.LineStyle>
                                     <dxc:LineStyle Thickness="2" />
-                                </dxc:LineSeries2D.LineStyle>
-                            </dxc:LineSeries2D>
-                            <dxc:LineSeries2D
+                                </dxc:SplineSeries2D.LineStyle>
+                            </dxc:SplineSeries2D>
+                            <dxc:SplineSeries2D
                                 ArgumentDataMember="{Binding ChartArgument}"
+                                CrosshairLabelPattern="{}{S}: {V:c0}"
                                 DisplayName="Assets"
                                 LabelsVisibility="False"
                                 MarkerVisible="False"
                                 ShowInLegend="True"
                                 ValueDataMember="Assets">
-                                <dxc:LineSeries2D.LineStyle>
+                                <dxc:SplineSeries2D.LineStyle>
                                     <dxc:LineStyle Thickness="2" />
-                                </dxc:LineSeries2D.LineStyle>
-                            </dxc:LineSeries2D>
-                            <dxc:LineSeries2D
+                                </dxc:SplineSeries2D.LineStyle>
+                            </dxc:SplineSeries2D>
+                            <dxc:SplineSeries2D
                                 ArgumentDataMember="{Binding ChartArgument}"
+                                CrosshairLabelPattern="{}{S}: {V:c0}"
                                 DisplayName="Income"
                                 LabelsVisibility="False"
                                 MarkerVisible="False"
                                 ShowInLegend="True"
                                 ValueDataMember="Income">
-                                <dxc:LineSeries2D.LineStyle>
+                                <dxc:SplineSeries2D.LineStyle>
                                     <dxc:LineStyle Thickness="2" />
-                                </dxc:LineSeries2D.LineStyle>
-                            </dxc:LineSeries2D>
-                            <dxc:LineSeries2D
+                                </dxc:SplineSeries2D.LineStyle>
+                            </dxc:SplineSeries2D>
+                            <dxc:SplineSeries2D
                                 ArgumentDataMember="{Binding ChartArgument}"
+                                CrosshairLabelPattern="{}{S}: {V:c0}"
                                 DisplayName="Expenses"
                                 LabelsVisibility="False"
                                 MarkerVisible="False"
                                 ShowInLegend="True"
                                 ValueDataMember="Expenses">
-                                <dxc:LineSeries2D.LineStyle>
+                                <dxc:SplineSeries2D.LineStyle>
                                     <dxc:LineStyle Thickness="2" />
-                                </dxc:LineSeries2D.LineStyle>
-                            </dxc:LineSeries2D>
+                                </dxc:SplineSeries2D.LineStyle>
+                            </dxc:SplineSeries2D>
                         </dxc:XYDiagram2D.Series>
                     </dxc:XYDiagram2D>
                 </dxc:ChartControl.Diagram>
                 <dxc:ChartControl.Legend>
-                    <dxc:Legend HorizontalPosition="Left" VerticalPosition="Top" />
+                    <dxc:Legend HorizontalPosition="Right" VerticalPosition="Top" />
                 </dxc:ChartControl.Legend>
             </dxc:ChartControl>
         </controls:GridSection.Content>

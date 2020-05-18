@@ -280,7 +280,11 @@
 
             foreach (var item in this.Simulation.Items)
             {
-                this.ResultColumns.Add(new Column(item.Id.ToString(), item.Name, ColumnFieldTypes.Currency, "c0"));
+                this.ResultColumns.Add(new Column(
+                    item.Id.ToString(),
+                    item.Name + " (" + ((item as BudgetItem)?.IsExpense ?? false ? "expense" : "income") + ")",
+                    ColumnFieldTypes.Currency,
+                    "c0"));
             }
 
             this.ResultRows = new List<ExpandoObject>();
@@ -322,7 +326,7 @@
                     this.Simulation.GetTotalValue(year),
                     this.Simulation.GetCash(year),
                     this.Simulation.GetAssets(year),
-                    this.Simulation.IncomeItems.Sum(x => x.GetAmount(year)),
+                    this.Simulation.IncomeItems.Sum(x => x.GetAmount(year)) + this.Simulation.Assets.Sum(x => x.GetAmount(year)),
                     this.Simulation.ExpenseItems.Sum(x => x.GetAmount(year))));
 
                 if (age >= 120)

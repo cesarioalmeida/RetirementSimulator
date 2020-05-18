@@ -47,8 +47,6 @@
 
         public int EndYear { get; set; }
 
-        public double FirstYearValue => this.GetTotalValue(this.StartYear);
-
         public IEnumerable<AssetItem> Assets => this.Items.OfType<AssetItem>();
 
         public IEnumerable<BudgetItem> IncomeItems => this.Items.OfType<BudgetItem>().Where(x => !x.IsExpense);
