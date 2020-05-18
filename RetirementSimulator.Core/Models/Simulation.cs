@@ -59,6 +59,8 @@
 
         public IEnumerable<BudgetItem> IncomeItems => this.Items.OfType<BudgetItem>().Where(x => !x.IsExpense);
 
+        public IEnumerable<BudgetItem> ExpenseItems => this.Items.OfType<BudgetItem>().Where(x => x.IsExpense);
+
         public void Run()
         {
             this._valueDictionary = new Dictionary<int, double>();

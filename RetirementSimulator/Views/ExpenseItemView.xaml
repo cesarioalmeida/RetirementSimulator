@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="RetirementSimulator.Views.IncomeItemView"
+    x:Class="RetirementSimulator.Views.ExpenseItemView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,7 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mvvm="http://prismlibrary.com/"
     xmlns:viewModels="clr-namespace:RetirementSimulator.ViewModels"
-    d:DataContext="{d:DesignInstance Type=viewModels:IncomeItemViewModel}"
+    d:DataContext="{d:DesignInstance Type=viewModels:ExpenseItemViewModel}"
     d:DesignHeight="300"
     d:DesignWidth="300"
     mvvm:ViewModelLocator.AutoWireViewModel="True"
@@ -31,15 +31,15 @@
             FontFamily="Segoe UI Light"
             FontSize="23"
             Opacity="0.6"
-            Text="income" />
+            Text="expense" />
         <dxlc:LayoutControl Grid.Row="1">
             <dxlc:LayoutGroup ItemLabelsAlignment="Local" Orientation="Vertical">
                 <dxlc:LayoutItem AddColonToLabel="True" Label="name">
-                    <dxe:TextEdit EditValue="{Binding IncomeItem.Name, UpdateSourceTrigger=PropertyChanged}" MaskUseAsDisplayFormat="True" />
+                    <dxe:TextEdit EditValue="{Binding ExpenseItem.Name, UpdateSourceTrigger=PropertyChanged}" MaskUseAsDisplayFormat="True" />
                 </dxlc:LayoutItem>
                 <dxlc:LayoutItem AddColonToLabel="True" Label="start year">
                     <dxe:TextEdit
-                        EditValue="{Binding IncomeItem.StartYear}"
+                        EditValue="{Binding ExpenseItem.StartYear}"
                         Mask="####"
                         MaskType="Numeric"
                         MaskUseAsDisplayFormat="True" />
@@ -52,12 +52,12 @@
                         </Grid.ColumnDefinitions>
                         <dxe:TextEdit
                             Grid.Column="0"
-                            EditValue="{Binding IncomeItem.EndYear}"
+                            EditValue="{Binding ExpenseItem.EndYear}"
                             IsReadOnly="{Binding IsChecked, ElementName=NoEndDateCheckEdit}"
                             Mask="####"
                             MaskType="Numeric"
                             MaskUseAsDisplayFormat="True"
-                            ToolTip="when is this income item going to terminate" />
+                            ToolTip="when is this expense going to terminate" />
                         <dxe:CheckEdit
                             x:Name="NoEndDateCheckEdit"
                             Grid.Column="1"
@@ -68,7 +68,7 @@
                 </dxlc:LayoutItem>
                 <dxlc:LayoutItem AddColonToLabel="True" Label="initial value">
                     <dxe:TextEdit
-                        EditValue="{Binding IncomeItem.InitialValue, UpdateSourceTrigger=PropertyChanged}"
+                        EditValue="{Binding ExpenseItem.InitialValue, UpdateSourceTrigger=PropertyChanged}"
                         Mask="c0"
                         MaskType="Numeric"
                         MaskUseAsDisplayFormat="True" />
@@ -76,9 +76,9 @@
                 <dxlc:LayoutItem
                     AddColonToLabel="True"
                     Label="expected % change per year"
-                    ToolTip="how much are you expecting this income to raise/fall in a year">
+                    ToolTip="how much are you expecting this expense to raise/fall in a year">
                     <dxe:TextEdit
-                        EditValue="{Binding IncomeItem.PercentageChangePerYear}"
+                        EditValue="{Binding ExpenseItem.PercentageChangePerYear}"
                         Mask="p1"
                         MaskType="Numeric"
                         MaskUseAsDisplayFormat="True" />
@@ -86,8 +86,8 @@
                 <dxlc:LayoutItem
                     AddColonToLabel="True"
                     Label="affected by inflation"
-                    ToolTip="is this income affect by the inflation rate">
-                    <dxe:CheckEdit EditValue="{Binding IncomeItem.IsAffectedByInflationRate}" />
+                    ToolTip="is this expense affect by the inflation rate">
+                    <dxe:CheckEdit EditValue="{Binding ExpenseItem.IsAffectedByInflationRate}" />
                 </dxlc:LayoutItem>
             </dxlc:LayoutGroup>
         </dxlc:LayoutControl>

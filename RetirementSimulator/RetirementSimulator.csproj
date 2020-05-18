@@ -92,8 +92,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\ExpenseItemViewModel.cs" />
     <Compile Include="ViewModels\IncomeItemViewModel.cs" />
     <Compile Include="ViewModels\AssetViewModel.cs" />
+    <Compile Include="Views\ExpenseItemView.xaml.cs">
+      <DependentUpon>ExpenseItemView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\IncomeItemView.xaml.cs">
       <DependentUpon>IncomeItemView.xaml</DependentUpon>
     </Compile>
@@ -119,6 +123,10 @@
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Page Include="Views\ExpenseItemView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\IncomeItemView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -28,6 +28,8 @@
 
         public virtual BudgetItem SelectedIncome { get; set; }
 
+        public virtual BudgetItem SelectedExpense { get; set; }
+
         protected IDocumentManagerService DocumentManagerService => this.GetService<IDocumentManagerService>();
 
         public async void Loaded()
@@ -118,7 +120,7 @@
         public async void DeleteAsset()
         {
             if (WinUIMessageBox.Show(
-                    $"Are you sure you want to delete the asset {this.SelectedAsset}?",
+                    $"Are you sure you want to delete the asset {this.SelectedAsset.Name}?",
                     "delete asset",
                     MessageBoxButton.OKCancel) != MessageBoxResult.OK)
             {
@@ -170,7 +172,7 @@
         public async void DeleteIncome()
         {
             if (WinUIMessageBox.Show(
-                    $"Are you sure you want to delete the income {this.SelectedIncome}?",
+                    $"Are you sure you want to delete the income {this.SelectedIncome.Name}?",
                     "delete income",
                     MessageBoxButton.OKCancel) != MessageBoxResult.OK)
             {
@@ -186,6 +188,58 @@
         public bool CanDeleteIncome()
         {
             return this.SelectedIncome != null;
+        }
+
+        public async void AddExpense()
+        {
+            var settings = await Task.Run(() => this.PersistenceService.GetSettings());
+
+            var expense = new BudgetItem(settings.InflationRate);
+            var doc = this.DocumentManagerService.CreateDocument(nameof(ExpenseItemView), expense, this);
+            doc.Show();
+
+            var vm = doc.Content as ExpenseItemViewModel;
+            if (vm?.IsOK ?? false)
+            {
+                this.Simulation.Items.Add(vm.ExpenseItem);
+                await Task.Run(() => this.PersistenceService.SaveSimulation(this.Simulation));
+            }
+
+            this.Loaded();
+        }
+
+        public void EditExpense()
+        {
+            var doc = this.DocumentManagerService.CreateDocument(nameof(ExpenseItemView), this.SelectedExpense, this);
+            doc.Show();
+
+            this.Loaded();
+        }
+
+        public bool CanEditExpense()
+        {
+            return this.SelectedExpense != null;
+        }
+
+        public async void DeleteExpense()
+        {
+            if (WinUIMessageBox.Show(
+                    $"Are you sure you want to delete the expense {this.SelectedExpense.Name}?",
+                    "delete expense",
+                    MessageBoxButton.OKCancel) != MessageBoxResult.OK)
+            {
+                return;
+            }
+
+            this.Simulation.Items.Remove(this.SelectedExpense);
+            await Task.Run(() => this.PersistenceService.DeleteBudgetItem(this.SelectedExpense));
+
+            this.Loaded();
+        }
+
+        public bool CanDeleteExpense()
+        {
+            return this.SelectedExpense != null;
         }
     }
 }
