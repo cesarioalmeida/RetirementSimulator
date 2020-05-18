@@ -6,16 +6,114 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:RetirementSimulator.ViewModels"
+    d:DataContext="{d:DesignInstance Type=viewModels:HomeViewModel}"
     d:DesignHeight="300"
     d:DesignWidth="300"
     mc:Ignorable="d">
 
     <controls:GridSection>
         <controls:GridSection.Header>
-            <controls:GridSectionHeader HorizontalContentAlignment="Right" Label="charts" />
+            <controls:GridSectionHeader HorizontalContentAlignment="Right" Label="charts">
+                <controls:GridSectionHeader.Items>
+                    <controls:GridSectionHeaderTextButton
+                        Command="{Binding SetXArgumentCommand}"
+                        CommandParameter="Year"
+                        ShowBorder="False"
+                        Text="years" />
+                    <controls:GridSectionHeaderTextButton
+                        Command="{Binding SetXArgumentCommand}"
+                        CommandParameter="Age"
+                        ShowBorder="False"
+                        Text="age" />
+                </controls:GridSectionHeader.Items>
+            </controls:GridSectionHeader>
         </controls:GridSection.Header>
         <controls:GridSection.Content>
-            <dxc:ChartControl />
+            <dxc:ChartControl
+                Margin="0"
+                Padding="10,0"
+                AnimationMode="Disabled"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                BorderThickness="0"
+                CrosshairEnabled="True"
+                DataSource="{Binding ChartData}"
+                SelectionMode="None">
+                <dxc:ChartControl.Diagram>
+                    <dxc:XYDiagram2D>
+                        <dxc:XYDiagram2D.DefaultPane>
+                            <dxc:Pane DomainBrush="Transparent" />
+                        </dxc:XYDiagram2D.DefaultPane>
+                        <dxc:XYDiagram2D.AxisY>
+                            <dxc:AxisY2D GridLinesVisible="False" Interlaced="False" />
+                        </dxc:XYDiagram2D.AxisY>
+                        <dxc:XYDiagram2D.AxisX>
+                            <dxc:AxisX2D GridLinesVisible="False" />
+                        </dxc:XYDiagram2D.AxisX>
+                        <dxc:XYDiagram2D.Series>
+                            <dxc:LineSeries2D
+                                ArgumentDataMember="{Binding ChartArgument}"
+                                DisplayName="Total Value"
+                                LabelsVisibility="False"
+                                MarkerVisible="False"
+                                ShowInLegend="True"
+                                ValueDataMember="TotalValue">
+                                <dxc:LineSeries2D.LineStyle>
+                                    <dxc:LineStyle Thickness="3" />
+                                </dxc:LineSeries2D.LineStyle>
+                            </dxc:LineSeries2D>
+                            <dxc:LineSeries2D
+                                ArgumentDataMember="{Binding ChartArgument}"
+                                DisplayName="Cash"
+                                LabelsVisibility="False"
+                                MarkerVisible="False"
+                                ShowInLegend="True"
+                                ValueDataMember="Cash">
+                                <dxc:LineSeries2D.LineStyle>
+                                    <dxc:LineStyle Thickness="2" />
+                                </dxc:LineSeries2D.LineStyle>
+                            </dxc:LineSeries2D>
+                            <dxc:LineSeries2D
+                                ArgumentDataMember="{Binding ChartArgument}"
+                                DisplayName="Assets"
+                                LabelsVisibility="False"
+                                MarkerVisible="False"
+                                ShowInLegend="True"
+                                ValueDataMember="Assets">
+                                <dxc:LineSeries2D.LineStyle>
+                                    <dxc:LineStyle Thickness="2" />
+                                </dxc:LineSeries2D.LineStyle>
+                            </dxc:LineSeries2D>
+                            <dxc:LineSeries2D
+                                ArgumentDataMember="{Binding ChartArgument}"
+                                DisplayName="Income"
+                                LabelsVisibility="False"
+                                MarkerVisible="False"
+                                ShowInLegend="True"
+                                ValueDataMember="Income">
+                                <dxc:LineSeries2D.LineStyle>
+                                    <dxc:LineStyle Thickness="2" />
+                                </dxc:LineSeries2D.LineStyle>
+                            </dxc:LineSeries2D>
+                            <dxc:LineSeries2D
+                                ArgumentDataMember="{Binding ChartArgument}"
+                                DisplayName="Expenses"
+                                LabelsVisibility="False"
+                                MarkerVisible="False"
+                                ShowInLegend="True"
+                                ValueDataMember="Expenses">
+                                <dxc:LineSeries2D.LineStyle>
+                                    <dxc:LineStyle Thickness="2" />
+                                </dxc:LineSeries2D.LineStyle>
+                            </dxc:LineSeries2D>
+                        </dxc:XYDiagram2D.Series>
+                    </dxc:XYDiagram2D>
+                </dxc:ChartControl.Diagram>
+                <dxc:ChartControl.Legend>
+                    <dxc:Legend HorizontalPosition="Left" VerticalPosition="Top" />
+                </dxc:ChartControl.Legend>
+            </dxc:ChartControl>
         </controls:GridSection.Content>
     </controls:GridSection>
 

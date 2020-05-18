@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Dynamic;
+    using System.Linq;
     using System.Threading.Tasks;
     using System.Windows;
 
@@ -38,6 +39,10 @@
 
         public virtual List<ExpandoObject> ResultRows { get; set; }
 
+        public virtual List<ChartDataItem> ChartData { get; set; }
+
+        public virtual string ChartArgument { get; set; } = "Year";
+
         protected IDocumentManagerService DocumentManagerService => this.GetService<IDocumentManagerService>();
 
         public async void Loaded()
@@ -57,12 +62,15 @@
                 await Task.Run(() => this.Simulation.Run());
 
                 await Task.Run(this.PrepareResults);
+
+                await Task.Run(this.PrepareChartData);
             }
             finally
             {
                 this.RaisePropertyChanged(x => x.Simulation);
                 this.RaisePropertyChanged(x => x.ResultColumns);
                 this.RaisePropertyChanged(x => x.ResultRows);
+                this.RaisePropertyChanged(x => x.ChartData);
                 this.IsBusy = false;
             }
         }
@@ -254,6 +262,11 @@
             return this.SelectedExpense != null;
         }
 
+        public void SetXArgument(string key)
+        {
+            this.ChartArgument = key;
+        }
+
         private void PrepareResults()
         {
             this.ResultColumns = new List<Column>
@@ -295,7 +308,29 @@
                     break;
                 }
             }
+        }
 
+        private void PrepareChartData()
+        {
+            this.ChartData = new List<ChartDataItem>();
+
+            var age = this.PersistenceService.GetSettings().AgeAtStartDate;
+            for (var year = this.Simulation.StartYear; year <= this.Simulation.EndYear; year++)
+            {
+                this.ChartData.Add(new ChartDataItem(
+                    year,
+                    age++,
+                    this.Simulation.GetTotalValue(year),
+                    this.Simulation.GetCash(year),
+                    this.Simulation.GetAssets(year),
+                    this.Simulation.IncomeItems.Sum(x => x.GetAmount(year)),
+                    this.Simulation.ExpenseItems.Sum(x => x.GetAmount(year))));
+
+                if (age >= 120)
+                {
+                    break;
+                }
+            }
         }
     }
 }

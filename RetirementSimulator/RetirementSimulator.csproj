@@ -94,6 +94,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\FieldTypeToEditSettingsConverter.cs" />
+    <Compile Include="Models\ChartDataItem.cs" />
     <Compile Include="Models\Column.cs" />
     <Compile Include="ViewModels\ExpenseItemViewModel.cs" />
     <Compile Include="Models\FieldTypes.cs" />
