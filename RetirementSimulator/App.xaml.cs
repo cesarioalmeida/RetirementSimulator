@@ -40,5 +40,12 @@
         {
             return this.Container.Resolve<HomeView>();
         }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            this.Container.Resolve<PersistenceService>()?.Close();
+
+            base.OnExit(e);
+        }
     }
 }

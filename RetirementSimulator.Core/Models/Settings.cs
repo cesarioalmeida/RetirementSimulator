@@ -10,7 +10,7 @@
         {
             this.Id = ObjectId.NewObjectId();
             this.InflationRate = 0.02d;
-            this.AgeAtStartDate = 40;
+            this.AgeAtStartDate = 20;
         }
 
         public Settings(SettingsDTO dto)

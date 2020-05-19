@@ -23,6 +23,11 @@
 
         private readonly LiteDatabase _db = new LiteDatabase(DbConnectionString);
 
+        public void Close()
+        {
+            this._db?.Dispose();
+        }
+
         public IEnumerable<BudgetItem> GetAllBudgetItems()
         {
             if (this._db.CollectionExists(BudgetItemsColletion))

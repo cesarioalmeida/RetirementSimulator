@@ -13,6 +13,7 @@
             (initial, percentChange, inflation) => new BudgetItem(0.02d)
             {
                 StartYear = 2020,
+                EndYear = 2300,
                 InitialValue = initial,
                 IsExpense = false,
                 PercentageChangePerYear = percentChange,
@@ -23,6 +24,7 @@
             (year, initial, percentChange, inflation) => new BudgetItem(0.02d)
             {
                 StartYear = year,
+                EndYear = 2300,
                 InitialValue = initial,
                 IsExpense = true,
                 PercentageChangePerYear = percentChange,
@@ -44,6 +46,7 @@
             (initial, percentChange, income) => new AssetItem
             {
                 StartYear = 2020,
+                EndYear = 2300,
                 InitialValue = initial,
                 PercentageChangePerYear = percentChange,
                 IncomePercentagePerYear = income

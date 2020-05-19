@@ -18,7 +18,7 @@
             this.Id = ObjectId.NewObjectId();
             this._inflationRate = inflationRate;
             this.StartYear = 2020;
-            this.EndYear = 2300;
+            this.EndYear = 2020;
         }
 
         public BudgetItem(double inflationRate, BudgetItemDTO dto)

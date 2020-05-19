@@ -13,6 +13,7 @@
             var income = new BudgetItem(0.2d)
             {
                 StartYear = 2020,
+                EndYear = 2300,
                 InitialValue = 10d,
                 IsExpense = false,
                 PercentageChangePerYear = 0d,
@@ -29,6 +30,7 @@
             var income = new BudgetItem(0.2d)
             {
                 StartYear = 2020,
+                EndYear = 2300,
                 InitialValue = 10d,
                 IsExpense = false,
                 PercentageChangePerYear = 0.01d,
@@ -45,6 +47,7 @@
             var income = new BudgetItem(0.02d)
             {
                 StartYear = 2020,
+                EndYear = 2300,
                 InitialValue = 10d,
                 IsExpense = false,
                 PercentageChangePerYear = 0d,
@@ -61,6 +64,7 @@
             var income = new BudgetItem(0.02d)
             {
                 StartYear = 2020,
+                EndYear = 2300,
                 InitialValue = 10d,
                 IsExpense = false,
                 PercentageChangePerYear = 0.05d,

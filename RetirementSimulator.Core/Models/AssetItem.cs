@@ -34,12 +34,15 @@
 
         private readonly Dictionary<int, double> _valueDictionary = new Dictionary<int, double>();
 
+        private int _sellAllDate;
+
         public AssetItem()
         {
             this.Id = ObjectId.NewObjectId();
             this.CanSellPartial = true;
             this.StartYear = 2020;
-            this.EndYear = 2300;
+            this.EndYear = 2020;
+            this._sellAllDate = this.EndYear;
         }
 
         public AssetItem(AssetItemDTO dto)
@@ -52,6 +55,7 @@
             this.PercentageChangePerYear = dto.PercentageChangePerYear;
             this.IncomePercentagePerYear = dto.IncomePercentagePerYear;
             this.CanSellPartial = dto.CanSellPartial;
+            this._sellAllDate = this.EndYear;
         }
 
         public double PercentageChangePerYear
@@ -103,7 +107,7 @@
                 this._valueDictionary[year] = 0d;
             }
 
-            this.EndYear = year;
+            this._sellAllDate = year;
 
             return this._incomeFactory(year, result);
         }
@@ -112,7 +116,7 @@
         {
             var result = 0d;
 
-            if (year > this.EndYear || year < this.StartYear)
+            if (year > this.EndYear || year < this.StartYear || year > this._sellAllDate)
             {
                 result = 0d;
                 return result;
@@ -129,7 +133,7 @@
 
         public double GetValue(int year)
         {
-            if (year > this.EndYear || year < this.StartYear)
+            if (year > this.EndYear || year < this.StartYear || year > this._sellAllDate)
             {
                 return 0d;
             }
@@ -159,6 +163,8 @@
 
         protected override void OnEndYearChanged()
         {
+            this._sellAllDate = this.EndYear;
+
             this.InitializeValueDictionary();
         }
 

@@ -12,6 +12,7 @@
         private Func<int, double, double, double, AssetItem> _assetItemFactory => (year, value, changePerYear, income) => new AssetItem
         {
             StartYear = year,
+            EndYear = 2030,
             InitialValue = value,
             PercentageChangePerYear = changePerYear,
             IncomePercentagePerYear = income
