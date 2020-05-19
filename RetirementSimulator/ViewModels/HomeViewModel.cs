@@ -289,7 +289,15 @@
 
             this.ResultRows = new List<ExpandoObject>();
 
-            var age = this.PersistenceService.GetSettings().AgeAtStartDate;
+            var settings = this.PersistenceService.GetSettings();
+
+            if (settings == null)
+            {
+                return;
+            }
+
+            var age = settings.AgeAtStartDate;
+
             for (var year = this.Simulation.StartYear; year <= this.Simulation.EndYear; year++)
             {
                 IDictionary<string, object> row = new ExpandoObject();
@@ -317,7 +325,15 @@
         {
             this.ChartData = new List<ChartDataItem>();
 
-            var age = this.PersistenceService.GetSettings().AgeAtStartDate;
+            var settings = this.PersistenceService.GetSettings();
+
+            if (settings == null)
+            {
+                return;
+            }
+
+            var age = settings.AgeAtStartDate;
+
             for (var year = this.Simulation.StartYear; year <= this.Simulation.EndYear; year++)
             {
                 this.ChartData.Add(new ChartDataItem(
