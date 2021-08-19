@@ -2,13 +2,10 @@
 {
     using System;
 
-    using DevExpress.Mvvm.DataAnnotations;
-
     using LiteDB;
 
     using RetirementSimulator.Core.DTOs;
 
-    [POCOViewModel]
     public class BudgetItem : SimulationItem
     {
         private readonly double _inflationRate;

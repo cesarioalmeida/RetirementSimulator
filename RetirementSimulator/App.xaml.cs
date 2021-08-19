@@ -10,8 +10,8 @@
     using Prism.Ioc;
     using Prism.Mvvm;
 
-    using RetirementSimulator.Core.Services;
-    using RetirementSimulator.Views;
+    using Core.Services;
+    using Views;
 
     public partial class App
     {
